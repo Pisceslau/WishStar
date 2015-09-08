@@ -1,2 +1,2 @@
-# jocular-broccoli
+# README
 An application.
