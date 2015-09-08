@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">愿望星</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="home">愿望大厅</string>
+    <string name="accepted">已接受的愿望</string>
+    <string name="sales">买卖</string>
+    <string name="setting">设置</string>
+    <string name="search">搜索</string>
+    <string name="publish">发布愿望</string>
+    <string name="compose">撰写愿望</string>
+    <string name="snackbar_text">你点击了该条目!</string>
+    <string name="snackbar_action_undo">撤销</string>
+    <string name="register_username_prompt">请输入0&#8211;10位数字，字母或者汉字</string>
+    <string name="register_waring">请输入用户名</string>
+    <string name="qq_login">使用QQ账号进行登录</string>
+    <string name="register_password_prompt">请输入注册密码</string>
+    <string name="register_email_prompt">请输入您的邮箱</string>
+    <string name="normal_login">登录</string>
+    <string name="wish">愿望</string>
+    <string name="openDrawer">打开</string>
+    <string name="closeDrawer">关闭</string>
+    <string name="register">注册</string>
+    <string name="register_prompt">没有账户?注册一个!</string>
+    <string name="dot">dot</string>
+    <string name="user_logo">用户头像</string>
+    <string name="login_username_prompt">请输入用户名</string>
+    <string name="login_password_prompt">请输入登录密码</string>
+    <string name="logout">登出</string>
+    <string name="feedback_title">请输入您的反馈给开发者:</string>
+    <string name="feedback_name">您的名字</string>
+    <string name="feedback_email">您的邮箱</string>
+    <!--用户反馈界面字符串资源-->
+    <string name="feedback_type1">赞美</string>
+    <string name="feedback_type2">批评</string>
+    <string name="feedback_type3">建议</string>
+    <string name="feedback_type4">Bug</string>
+    <string name="feedback_prompt">点击反馈类型</string>
+    <string name="feedback_body">请输入您的反馈:</string>
+    <string name="feedback_response">您是否需要邮件回复?</string>
+    <string name="feedback_button">提交反馈</string>
+    <string name="navigation_view_subtitle">其他</string>
+    <string name="pref_account_title">账户设置</string>
+    <string name="pref_nickname">更改昵称</string>
+    <string name="pref_default" />
+    <string name="pref_dialog_nickname">修改昵称</string>
+    <string name="negative_button_text">取消修改</string>
+    <string name="positive_button_text">确定修改</string>
+    <string name="pref_brief">设置简介</string>
+    <string name="sure">确定</string>
+    <string name="pref_normal_title">常规设置</string>
+    <string name="pref_offline">离线下载</string>
+    <string name="pref_offline_close">关闭</string>
+    <string name="pref_offline_open">打开</string>
+    <string name="pref_2G_3G_load_image">2G/3G网络下加载图片</string>
+    <string name="pref_offline_summary">仅Wi-Fi下可用,自动下载最新内容</string>
+    <string name="pref_push_notification">推送通知</string>
+    <string name="pref_no_disturb">免打扰</string>
+    <string name="pref_no_disturb_summary">开启后在设定时间段内接收到新消息将不会震动或响铃</string>
+    <string name="pref_alarm_way">提醒方式</string>
+    <string name="sound_alarm">声音提示</string>
+    <string name="vibrate_alarm">震动提示</string>
+    <string name="push_list">推送项目</string>
+    <string name="wish_received">愿望</string>
+    <string name="wish_received_summary">有人接受了您的愿望</string>
+    <string name="essence">精选</string>
+    <string name="essence_summary">系统每日为您推送优质愿望</string>
+    <string name="pref_clear_cache">清除缓存</string>
+    <string name="cache_room">当前缓存</string>
+    <string name="clear_cache_no">暂不清除</string>
+    <string name="clear_cache_yes">确定清除</string>
+    <string name="pref_app_info">应用信息</string>
+    <string name="app_update">版本更新</string>
+    <string name="app_version">当前版本</string>
+    <string name="feedback" />
+    <string name="pref_feedback">意见反馈</string>
+    <string name="pref_about_us">关于我们</string>
+    <string name="app_intro">愿望星是一款为智能终端提供即时通讯服务的社交许愿软件。愿望星支持跨通信运营商、跨操作系统平台通过网络快速发送免费（需消耗少量网络流量）语音 短信、视频、图片和文字。
+
+在这里，你可以释放一切小宇宙去寻找与你志同道合的人。无论是去沙漠看下暴雨、还是看大海亲吻鲨鱼，抑或去听空谷的回音；只要你敢说，就会有人响应。你还可以通过私信和朋友以及附近的人进行一对一交流，阅后即焚功能更加保密和安全。更可以创建和加入群聊，聊天更加随心所遇，尽情释放 另一面的社交人格。我们还有活动推荐，软件系统智能的选取浏览量最高，趣味性最好，可行性最高的帖子或者周边娱乐活动进行推荐，能提高用户的积极度和参与性。
+
+愿望星不是QQ，也不是微信，你看到的和想要做的一切来源于有同样想法的人，而不仅仅局限于身边的同学，朋友！同样， 你发的愿望也可以向你的朋友展示，让最关心你的人的给你反馈！愿望星让你不再只是一个传统意义上的乖小孩，而是一个拥有自己独立想法，独立人格的“特别” 的人！</string>
+    <string name="app_copyright">版权所有 @ NewThread SCUEC Android Pisces Lau</string>
+    <string name="app_website">我们的网站</string>
+    <string name="image_footer">footer_image</string>
+    <string name="search_hint">请输入您喜欢的书名:</string>
+    <string name="share">分享</string>
+    <string-array name="feed_type_list">
+        <item>@string/feedback_type1</item>
+        <item>@string/feedback_type2</item>
+        <item>@string/feedback_type3</item>
+        <item>@string/feedback_type4</item>
+    </string-array>
+   
+
+</resources>

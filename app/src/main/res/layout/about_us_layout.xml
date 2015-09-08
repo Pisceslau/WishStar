@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <!-- <include
+         android:id="@+id/swipe_refresh_layout"
+         layout="@layout/swipe_refresh_layout"/>-->
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/tool_bar" />
+
+    <ImageView
+        android:id="@+id/app_icon"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/us_text"
+        android:layout_below="@id/toolbar"
+        android:scaleType="fitXY"/>
+
+    <RelativeLayout
+        android:id="@+id/relative"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/app_icon">
+
+        <TextView
+            android:id="@+id/app_intro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:fadeScrollbars="false"
+            android:lines="4"
+            android:text="@string/app_intro"
+            android:textColor="#A9A9A9" />
+
+        <Button
+            android:id="@+id/to_website"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/app_intro"
+            android:drawableRight="@drawable/ic_keyboard_arrow_right_black_24dp"
+            android:drawableEnd="@drawable/ic_keyboard_arrow_right_black_24dp"
+            android:gravity="start|center_vertical"
+            android:text="@string/app_website"
+            android:background="?android:attr/selectableItemBackground"/>
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/to_feedback"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#ffffff"
+        android:text="@string/app_copyright"
+        android:textAllCaps="false"/>
+
+</RelativeLayout>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/home"
+            android:icon="@drawable/ic_favorite_white_48dp"
+            android:title="@string/home"
+            android:checked="false"/>
+        <item
+            android:id="@+id/drawer_accepted"
+            android:icon="@drawable/ic_stars_white_48dp"
+            android:title="@string/accepted"
+            android:checked="false"/>
+        <item
+            android:id="@+id/drawer_sales"
+            android:icon="@drawable/ic_add_shopping_cart_white_48dp"
+            android:title="@string/sales"
+            android:checked="false"/>
+
+
+    </group>
+    <item android:title="@string/navigation_view_subtitle">
+
+        <menu>
+
+            <item
+                android:id="@+id/drawer_setting"
+                android:icon="@drawable/ic_settings_white_48dp"
+                android:title="@string/setting"
+                android:checked="false"/>
+           <!--登出的icon未设置-->
+            <item
+                android:id="@+id/drawer_logout"
+                android:title="@string/logout"
+                android:checked="false"/>
+
+        </menu>
+    </item>
+
+</menu>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--账户设置-->
+    <PreferenceCategory
+        android:key="pref_account_setting"
+        android:title="@string/pref_account_title">
+        <!--账户设置:更改昵称-->
+        <EditTextPreference
+            android:dialogTitle="@string/pref_dialog_nickname"
+            android:key="pref_nickname"
+            android:negativeButtonText="@string/negative_button_text"
+            android:positiveButtonText="@string/positive_button_text"
+            android:singleLine="true"
+            android:title="@string/pref_nickname" />
+        <!--账户设置:设置简介-->
+        <Preference
+            android:key="pref_brief"
+            android:layout="@layout/setting_brief"
+            android:title="@string/pref_brief" />
+
+    </PreferenceCategory>
+    <!--常规设置-->
+    <PreferenceCategory
+        android:key="pref_normal_setting"
+        android:title="@string/pref_normal_title">
+        <!--常规设置:离线下载-->
+        <SwitchPreference
+            android:key="pref_offline"
+            android:summary="@string/pref_offline_summary"
+            android:switchTextOff="@string/pref_offline_close"
+            android:switchTextOn="@string/pref_offline_open"
+            android:title="@string/pref_offline"
+            android:defaultValue="false"/>
+        <!--常规设置:2G/3G网络下加载图片-->
+        <SwitchPreference
+            android:key="pref_2G_3G_load_image"
+            android:title="@string/pref_2G_3G_load_image" />
+        <!--推送通知-->
+        <PreferenceScreen
+            android:key="pref_push_notification"
+            android:persistent="false"
+            android:title="@string/pref_push_notification">
+            <!--推送通知:免打扰-->
+            <SwitchPreference
+                android:key="pref_no_disturb"
+                android:summary="@string/pref_no_disturb_summary"
+                android:title="@string/pref_no_disturb" />
+            <!--推送通知:提醒方式-->
+            <PreferenceCategory
+                android:key="pref_alarm_way_title"
+                android:title="@string/pref_alarm_way">
+                <!--推送通知:提醒方式:声音提示-->
+                <SwitchPreference
+                    android:key="sound_alarm"
+                    android:title="@string/sound_alarm" />
+                <!--提送通知:提醒方式:震动提示-->
+                <SwitchPreference
+                    android:key="vibrate_alarm"
+                    android:title="@string/vibrate_alarm" />
+            </PreferenceCategory>
+            <!--推送通知:推送项目-->
+            <PreferenceCategory
+                android:key="push_list"
+                android:title="@string/push_list">
+                <!--推送通知:推送项目:愿望-->
+                <CheckBoxPreference
+                    android:defaultValue="true"
+                    android:key="wish_received"
+                    android:summary="@string/wish_received_summary"
+                    android:title="@string/wish_received" />
+                <!--推送通知:推送项目:精选-->
+                <CheckBoxPreference
+                    android:defaultValue="true"
+                    android:key="essence"
+                    android:summary="@string/essence_summary"
+                    android:title="@string/essence" />
+            </PreferenceCategory>
+
+        </PreferenceScreen>
+        <!--常规设置:清除缓存-->
+        <com.pisces.lau.wishstar.ClearCacheDialogPreference
+            android:key="pref_clear_cache"
+            android:title="@string/pref_clear_cache"
+            android:dialogMessage="@string/cache_room"
+            android:negativeButtonText="@string/clear_cache_no"
+            android:positiveButtonText="@string/clear_cache_yes"/>
+    </PreferenceCategory>
+    <!--应用信息-->
+    <PreferenceCategory
+        android:key="pref_app_info"
+        android:title="@string/pref_app_info">
+        <!--应用信息:版本更新-->
+        <Preference
+            android:title="@string/app_update"
+            android:key="app_update"
+            android:summary="@string/app_version"/>
+        <!--意见反馈-->
+        <Preference
+            android:key="pref_feedback"
+            android:title="@string/pref_feedback">
+            <!--启动用户反馈(FeedbackActivity)-->
+            <intent
+                android:action=".activity.FeedbackActivity"
+                android:targetPackage="com.pisces.lau.wishstar"
+                android:targetClass="com.pisces.lau.wishstar.FeedbackActivity" />
+        </Preference>
+        <!--关于我们-->
+        <Preference
+            android:key="pref_about_us"
+            android:title="@string/pref_about_us">
+            <intent
+                android:action=".activity.AboutUsActivity"
+                android:targetPackage="com.pisces.lau.wishstar"
+                android:targetClass="com.pisces.lau.wishstar.AboutUsActivity"/>
+        </Preference>
+    </PreferenceCategory>
+</PreferenceScreen>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base application theme. -->
+    <style name="DarkTheme" parent="@android:style/Theme">
+       <!-- <item name="text_bg">@drawable/selector_text_bg_dark</item>
+        <item name="bottom_bg">@drawable/bg_bottombar_dark</item>-->
+    </style>
+</resources>
