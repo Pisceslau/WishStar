@@ -36,7 +36,7 @@ import cn.bmob.v3.BmobUser;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
-public class MainActivity extends AppCompatActivity implements ShoppingFragment.OnCardViewSelectedListener{
+public class MainActivity extends AppCompatActivity {
 
     public static final int MEDIA_TYPE_IMAGE = 1;
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
@@ -380,11 +380,5 @@ public class MainActivity extends AppCompatActivity implements ShoppingFragment.
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onCardViewSelected(String msg) {
-        BookInfoFragment bookInfoFragment = new BookInfoFragment();
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.frame,bookInfoFragment);
-        bookInfoFragment.setMessage(msg);
-    }
+
 }

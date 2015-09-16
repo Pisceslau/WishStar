@@ -38,7 +38,7 @@ public class ShoppingFragment extends Fragment {
     CardAdapter mAdapter;
     ArrayList<Book> books;
     String bookName, doubanUrl;
-    OnCardViewSelectedListener mCallback;
+
     Context context;
 
 
@@ -160,20 +160,6 @@ public class ShoppingFragment extends Fragment {
     }
 
 
-    public interface OnCardViewSelectedListener {
-        void onCardViewSelected(String msg);
-    }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        try {
-            mCallback = (OnCardViewSelectedListener) getActivity();
-        } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString() + " must implement onCardViewSelected");
-        }
-
-
-    }
 }
 

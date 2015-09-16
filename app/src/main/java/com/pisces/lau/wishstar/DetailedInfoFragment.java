@@ -8,8 +8,10 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.Button;
+
+import com.google.gson.Gson;
+import com.pisces.lau.wishstar.bean.DetailedInfo;
 
 import net.tsz.afinal.FinalHttp;
 import net.tsz.afinal.http.AjaxCallBack;
@@ -19,10 +21,11 @@ import net.tsz.afinal.http.AjaxCallBack;
  * Company: New Thread Android
  * Email: liuwenyueno2@gmail.com
  */
-public class DetailedInfoFragment extends Fragment implements ViewTreeObserver.OnScrollChangedListener {
-    String bookId="";
+public class DetailedInfoFragment extends Fragment {
+    String bookId = "";
 
     Button button;
+    String bookInfo;
 
 
     @Nullable
@@ -30,8 +33,7 @@ public class DetailedInfoFragment extends Fragment implements ViewTreeObserver.O
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.detailed_info_layout, container, false);
-        button = (Button)view.findViewById(R.id.press_info);
-
+        button = (Button) view.findViewById(R.id.press_info);
 
         return view;
     }
@@ -40,12 +42,15 @@ public class DetailedInfoFragment extends Fragment implements ViewTreeObserver.O
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
         //得到传过来的图书资源ID:
-        Bundle bundle =this.getArguments();
-        if(bundle!=null){
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+
             bookId = bundle.getString("bookId");
-            Log.v("DetailedInfoFragment",bookId);
-            String bookInfo="https://api.douban.com/v2/book/"+bookId;
+            Log.v("DetailedInfoFragment", bookId);
+            bookInfo = "https://api.douban.com/v2/book/" + bookId;
+            Log.v("xxx", bookInfo);
             getBookInfo(bookInfo);
 
 
@@ -70,6 +75,7 @@ public class DetailedInfoFragment extends Fragment implements ViewTreeObserver.O
             public void onSuccess(String result) {
 
                 Log.v("kkk", result);
+                parseResult(result);
 
             }
 
@@ -80,20 +86,24 @@ public class DetailedInfoFragment extends Fragment implements ViewTreeObserver.O
         });
     }
 
-
-    @Override
-    public void onScrollChanged() {
-            //滚动触发
-
+    //解析书籍详细信息包括图片和信息
+    private void parseResult(String result) {
+        Gson gson = new Gson();
+        DetailedInfo detailedInfo = gson.fromJson(result, DetailedInfo.class);
+        Log.v("gson", detailedInfo.getTitle());
+        DetailedInfo.ImagesEntity imagesEntity = detailedInfo.getImages();
+        Log.v("gson", imagesEntity.getLarge());
 
 
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id=item.getItemId();
-        if(id==R.id.detailed_share){
-            //点击该图标,会进行分享.
+        int id = item.getItemId();
+        if (id == R.id.detailed_share) {
+            //点击该图标,会进行分享.社会化分享shareSDK相关
+
         }
         return super.onOptionsItemSelected(item);
 
