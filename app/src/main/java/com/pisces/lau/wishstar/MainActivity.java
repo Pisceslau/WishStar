@@ -54,6 +54,9 @@ public class MainActivity extends AppCompatActivity {
     private boolean isTransforming;//FAB是否转为了底边toolbar,java逻辑值默认是false,为没转换了
     private ImageView[] images;//ImageView数组
 
+    boolean doubleBackToExitPressedOnce = false;//默认双按后退键离开:false
+
+
     private static Uri getOutputMediaFileUri(int type) {
         return Uri.fromFile(getOutputMediaFile(type));
     }

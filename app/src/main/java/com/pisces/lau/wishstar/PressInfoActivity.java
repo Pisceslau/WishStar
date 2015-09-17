@@ -1,6 +1,10 @@
 package com.pisces.lau.wishstar;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.pisces.lau.wishstar.util.BaseActivity;
 
@@ -10,6 +14,29 @@ import com.pisces.lau.wishstar.util.BaseActivity;
  * Email: liuwenyueno2@gmail.com
  */
 public class PressInfoActivity extends BaseActivity {
+    TextView textView;
+    StringBuilder pressInfo;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        textView = (TextView) findViewById(R.id.pressInfo_text);
+
+        Intent intent = getIntent();
+        Bundle bundle = intent.getBundleExtra("pressInfo");
+        String[] pressInfoArray = bundle.getStringArray("pressInfo");
+
+
+        if (pressInfoArray != null) {
+            for (String pressInfoArrayItem : pressInfoArray) {
+                Log.v("pressInfo2", pressInfoArrayItem);
+                pressInfo.append(pressInfoArrayItem).append("\n");
+                textView.setText(pressInfo);
+            }
+        }
+    }
+
     //出版信息
     @Override
     protected int getLayoutResourceId() {

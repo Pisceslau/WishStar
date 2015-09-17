@@ -1,6 +1,9 @@
 package com.pisces.lau.wishstar;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -9,14 +12,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.google.gson.Gson;
 import com.pisces.lau.wishstar.bean.DetailedInfo;
+import com.squareup.picasso.Picasso;
 
 import net.tsz.afinal.FinalHttp;
 import net.tsz.afinal.http.AjaxCallBack;
-
-import java.util.List;
 
 /**
  * Created by Liu Wenyue on 2015/8/17.
@@ -25,9 +28,24 @@ import java.util.List;
  */
 public class DetailedInfoFragment extends Fragment {
     String bookId = "";
-
+    ImageView imageView;
     Button button;
     String bookInfo;
+    Bundle bundle;
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (msg.what == 1) {
+                Log.v("pressInfo", msg.obj.toString());
+
+                String imageUrl = msg.obj.toString();
+                //主线程更新UI(ImageView图片),使用Picasso开源库
+                Picasso.with(getActivity()).load(imageUrl).into(imageView);
+            }
+
+        }
+    };
 
 
     @Nullable
@@ -36,6 +54,17 @@ public class DetailedInfoFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.detailed_info_layout, container, false);
         button = (Button) view.findViewById(R.id.press_info);
+        imageView = (ImageView) view.findViewById(R.id.image_view);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), PressInfoActivity.class);
+                intent.putExtra("pressInfo", bundle);
+                startActivity(intent);
+            }
+        });
+
 
         return view;
     }
@@ -93,18 +122,18 @@ public class DetailedInfoFragment extends Fragment {
         Gson gson = new Gson();
         DetailedInfo detailedInfo = gson.fromJson(result, DetailedInfo.class);
         //作者
-        List<String> authors = detailedInfo.getAuthor();
-        for (String author : authors) {
-            Log.v("gson", author);
-        }
+        String authors = detailedInfo.getAuthor().toString();
+
+        Log.v("gson", authors);
+
         //出版社
         String publisher = detailedInfo.getPublisher();
         Log.v("gson", publisher);
         //翻译者
-        List<String> translators = detailedInfo.getTranslator();
-        for (String translator : translators) {
-            Log.v("gson", translator);
-        }
+        String translators = detailedInfo.getTranslator().toString();
+
+        Log.v("gson", translators);
+
         //出版日期
         String pubDate = detailedInfo.getPubdate();
         Log.v("gson", pubDate);
@@ -121,8 +150,22 @@ public class DetailedInfoFragment extends Fragment {
 
         Log.v("gson", binding);
         Log.v("gson", detailedInfo.getTitle());
-        DetailedInfo.ImagesEntity imagesEntity = detailedInfo.getImages();
+        //书籍封面图片
+        final DetailedInfo.ImagesEntity imagesEntity = detailedInfo.getImages();
         Log.v("gson", imagesEntity.getLarge());
+        String[] pressInfo = {authors, translators, pubDate, pages, price, binding, isbn};
+        bundle = new Bundle();
+        bundle.putStringArray("pressInfo", pressInfo);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Message msg = Message.obtain();
+                msg.what = 1;
+                msg.obj = imagesEntity.getSmall();
+                handler.sendMessage(msg);
+            }
+        }).start();
 
 
     }
