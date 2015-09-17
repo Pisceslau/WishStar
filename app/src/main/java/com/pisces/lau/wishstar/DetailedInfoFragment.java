@@ -16,6 +16,8 @@ import com.pisces.lau.wishstar.bean.DetailedInfo;
 import net.tsz.afinal.FinalHttp;
 import net.tsz.afinal.http.AjaxCallBack;
 
+import java.util.List;
+
 /**
  * Created by Liu Wenyue on 2015/8/17.
  * Company: New Thread Android
@@ -90,6 +92,34 @@ public class DetailedInfoFragment extends Fragment {
     private void parseResult(String result) {
         Gson gson = new Gson();
         DetailedInfo detailedInfo = gson.fromJson(result, DetailedInfo.class);
+        //作者
+        List<String> authors = detailedInfo.getAuthor();
+        for (String author : authors) {
+            Log.v("gson", author);
+        }
+        //出版社
+        String publisher = detailedInfo.getPublisher();
+        Log.v("gson", publisher);
+        //翻译者
+        List<String> translators = detailedInfo.getTranslator();
+        for (String translator : translators) {
+            Log.v("gson", translator);
+        }
+        //出版日期
+        String pubDate = detailedInfo.getPubdate();
+        Log.v("gson", pubDate);
+        //页数
+        String pages = detailedInfo.getPages();
+        Log.v("gson", pages);
+        //定价
+        String price = detailedInfo.getPrice();
+        Log.v("gson", price);
+        //装帧
+        String binding = detailedInfo.getBinding();
+        //ISBN
+        String isbn = detailedInfo.getIsbn10();
+
+        Log.v("gson", binding);
         Log.v("gson", detailedInfo.getTitle());
         DetailedInfo.ImagesEntity imagesEntity = detailedInfo.getImages();
         Log.v("gson", imagesEntity.getLarge());

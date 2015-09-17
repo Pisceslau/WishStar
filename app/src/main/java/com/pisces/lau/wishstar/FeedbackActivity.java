@@ -1,7 +1,6 @@
 package com.pisces.lau.wishstar;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -11,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pisces.lau.wishstar.bean.Feedback;
+import com.pisces.lau.wishstar.util.BaseActivity;
 
 import cn.bmob.v3.listener.SaveListener;
 
@@ -19,7 +19,7 @@ import cn.bmob.v3.listener.SaveListener;
  * Company: New Thread Android
  * Email: liuwenyueno2@gmail.com
  */
-public class FeedbackActivity extends AppCompatActivity {
+public class FeedbackActivity extends BaseActivity {
     /*用户反馈界面*/
     TextView titleField;
     EditText nameField;
@@ -33,9 +33,14 @@ public class FeedbackActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.feedback_layout);
+
 
         init();
+    }
+
+    @Override
+    protected int getLayoutResourceId() {
+        return R.layout.feedback_layout;
     }
 
     //初始哈相关组件
