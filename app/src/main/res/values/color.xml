@@ -8,6 +8,8 @@
     <color name="material_deep_purple_200">#B39DDB</color>
     <color name="material_red_500">#F44336</color>
     <color name="material_deep_purple_500">#673AB7</color>
+    <color name="colorAccent">#c8e8ff</color>
+    <color name="windowBackground">#FFFFFF</color>
 
 
 

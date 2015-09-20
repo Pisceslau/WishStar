@@ -13,6 +13,7 @@ public class SettingFragment extends PreferenceFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //载入Preferences.xml
+
         addPreferencesFromResource(R.xml.preferences);
 
     }

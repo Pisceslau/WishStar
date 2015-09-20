@@ -4,7 +4,10 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/ColorPrimary</item>
+        <item name="windowNoTitle">true</item>
         <item name="colorPrimaryDark">@color/ColorPrimaryDark</item>
+        <item name="colorAccent">@color/ColorPrimary</item>
+
 
         <!-- Customize your theme here. -->
     </style>

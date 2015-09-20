@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -24,6 +25,7 @@ import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ScrollView;
+import android.widget.Toast;
 
 import com.konifar.fab_transformation.FabTransformation;
 
@@ -162,8 +164,8 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.drawer_sales:
 
                         ShoppingFragment shoppingFragment = new ShoppingFragment();
-                        if(bundle!=null)
-                        shoppingFragment.setArguments(bundle);
+                        if (bundle != null)
+                            shoppingFragment.setArguments(bundle);
                         FragmentTransaction fragmentTransaction2 = getSupportFragmentManager().beginTransaction();
                         fragmentTransaction2.replace(R.id.frame, shoppingFragment).commit();
 
@@ -305,9 +307,26 @@ public class MainActivity extends AppCompatActivity {
         if (floatingActionButton.getVisibility() != View.VISIBLE) {
             //如果不可见,从底边栏转化为按钮
             FabTransformation.with(floatingActionButton).transformFrom(toolbarFooter);
+
+        }
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
             return;
         }
-        super.onBackPressed();
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "再按一次离开愿望星", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce = false;
+            }
+        }, 2000);
     }
 
     @Override
@@ -340,8 +359,7 @@ public class MainActivity extends AppCompatActivity {
                 public boolean onQueryTextSubmit(String searchString) {
 
                     bundle = new Bundle();
-                    bundle.putString("query",searchString);
-
+                    bundle.putString("query", searchString);
 
 
                     return true;

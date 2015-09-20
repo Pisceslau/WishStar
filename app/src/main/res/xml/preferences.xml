@@ -15,7 +15,6 @@
         <!--账户设置:设置简介-->
         <Preference
             android:key="pref_brief"
-            android:layout="@layout/setting_brief"
             android:title="@string/pref_brief" />
 
     </PreferenceCategory>
