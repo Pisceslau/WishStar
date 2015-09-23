@@ -42,7 +42,7 @@ public class UserInfoActivity extends BaseActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState .putInt(POSITION,tabLayout.getSelectedTabPosition());
+        outState.putInt(POSITION, tabLayout.getSelectedTabPosition());
     }
 
     @Override
@@ -61,12 +61,12 @@ public class UserInfoActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-   /* @Override
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_user_info, menu);
         return super.onCreateOptionsMenu(menu);
 
-    }*/
+    }
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {

@@ -26,7 +26,7 @@ public class MyApplication extends Application {
         Log.v("SDK Init", "初始化");
         //初始化Bmob SDK
         //使用时请将第二个参数ID为Bmob的服务器端Application ID
-        Bmob.initialize(this,AppConstants.BMOB_KEY);
+        Bmob.initialize(this, AppConstants.BMOB_KEY);
         Log.v("Bmob","初始化");
 
     }

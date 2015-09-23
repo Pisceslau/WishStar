@@ -8,6 +8,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,7 +43,8 @@ public class DetailedInfoFragment extends Fragment {
 
                 String imageUrl = msg.obj.toString();
                 //主线程更新UI(ImageView图片),使用Picasso开源库
-                Picasso.with(getActivity()).load(imageUrl).into(imageView);
+                Picasso.with(getActivity()).load(imageUrl).placeholder(R.drawable.placeholder)
+                        .error(R.drawable.placeholder).into(imageView);
             }
 
         }
@@ -162,7 +165,7 @@ public class DetailedInfoFragment extends Fragment {
             public void run() {
                 Message msg = Message.obtain();
                 msg.what = 1;
-                msg.obj = imagesEntity.getSmall();
+                msg.obj = imagesEntity.getLarge();
                 handler.sendMessage(msg);
             }
         }).start();
@@ -170,6 +173,11 @@ public class DetailedInfoFragment extends Fragment {
 
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_detailed_info, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

@@ -27,7 +27,7 @@
                 android:id="@+id/header"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/us"
+                android:background="@drawable/us_text"
                 android:contentDescription="@string/app_name"
                 android:fitsSystemWindows="true"
                 android:scaleType="centerCrop"
@@ -53,13 +53,11 @@
 
     </android.support.design.widget.AppBarLayout>
 
-
-    <android.support.v4.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/scrollable_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <!-- Your scrolling content -->
 
         <RelativeLayout
             android:id="@+id/relative"
@@ -72,8 +70,9 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
 
-                android:text="@string/app_intro"
+                android:textSize="20sp"
 
+                android:text="@string/app_intro"
                 android:textColor="#A9A9A9" />
 
             <Button
@@ -90,7 +89,7 @@
 
         </RelativeLayout>
 
-    </android.support.v4.widget.NestedScrollView>
+    </android.support.v7.widget.RecyclerView>
 
 
     <android.support.design.widget.FloatingActionButton

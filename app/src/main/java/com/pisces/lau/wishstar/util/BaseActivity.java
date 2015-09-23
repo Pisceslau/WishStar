@@ -15,7 +15,6 @@ import com.pisces.lau.wishstar.R;
 public abstract class BaseActivity extends AppCompatActivity {
     //BaseActivity,可被其他Activity继承的Activity,写共同布局,如toolbar.
     private Toolbar toolbar;
-   // private SwipeRefreshLayout swipeRefresh;
 
 
     @Override
