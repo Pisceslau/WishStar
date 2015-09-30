@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.pisces.lau.wishstar.bean.DetailedInfo;
@@ -34,17 +35,28 @@ public class DetailedInfoFragment extends Fragment {
     Button button;
     String bookInfo;
     Bundle bundle;
+    TextView textView;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             if (msg.what == 1) {
-                Log.v("pressInfo", msg.obj.toString());
+                Log.v("info", msg.getData().toString());
+                String[] infos = msg.getData().getStringArray("info");
+                if (infos != null) {
+                    String bookName = infos[0];
+                    String imageUrl = infos[1];
+                    //更新UI
+                    //  String imageUrl = msg.obj.toString();
+                    //主线程更新UI(ImageView图片),使用Picasso开源库
+                    textView.setText(bookName);
+                    Picasso.with(getActivity()).load(imageUrl).placeholder(R.drawable.placeholder)
+                            .error(R.drawable.placeholder).into(imageView);
 
-                String imageUrl = msg.obj.toString();
-                //主线程更新UI(ImageView图片),使用Picasso开源库
-                Picasso.with(getActivity()).load(imageUrl).placeholder(R.drawable.placeholder)
-                        .error(R.drawable.placeholder).into(imageView);
+
+                }
+
+
             }
 
         }
@@ -56,8 +68,17 @@ public class DetailedInfoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.detailed_info_layout, container, false);
+        //出版信息按钮
         button = (Button) view.findViewById(R.id.press_info);
+        //图书封面图片按钮
         imageView = (ImageView) view.findViewById(R.id.image_view);
+        //图书名字TextView
+        textView = (TextView) view.findViewById(R.id.book_name);
+
+
+
+
+
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,6 +86,20 @@ public class DetailedInfoFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), PressInfoActivity.class);
                 intent.putExtra("pressInfo", bundle);
                 startActivity(intent);
+            }
+        });
+
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+              /*  Dialog dialog = new Dialog(getActivity(),android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setCancelable(false);
+                dialog.setContentView(R.layout.preview_iamge);
+                ImageView ivPreview=(ImageView)dialog.findViewById(R.id.iv_preview_image);
+              //  ivPreview.setImageDrawable();*/
+
+
             }
         });
 
@@ -124,6 +159,8 @@ public class DetailedInfoFragment extends Fragment {
     private void parseResult(String result) {
         Gson gson = new Gson();
         DetailedInfo detailedInfo = gson.fromJson(result, DetailedInfo.class);
+        //书籍名字
+        final String title = detailedInfo.getTitle();
         //作者
         String authors = detailedInfo.getAuthor().toString();
 
@@ -165,7 +202,11 @@ public class DetailedInfoFragment extends Fragment {
             public void run() {
                 Message msg = Message.obtain();
                 msg.what = 1;
-                msg.obj = imagesEntity.getLarge();
+
+                Bundle bundle = new Bundle();//存放数据
+                bundle.putStringArray("info", new String[]{title, imagesEntity.getLarge()});
+
+                msg.setData(bundle);
                 handler.sendMessage(msg);
             }
         }).start();

@@ -1,5 +1,7 @@
 package com.pisces.lau.wishstar.bean;
 
+import android.media.Image;
+
 import cn.bmob.v3.BmobUser;
 
 /**
@@ -27,4 +29,13 @@ public class User extends BmobUser {
     public void setUserPassword(String userPassword) {
         this.userPassword = userPassword;
     }*/
+ private Image profile;
+
+    public Image getProfile() {
+        return profile;
+    }
+
+    public void setProfile(Image profile) {
+        this.profile = profile;
+    }
 }
