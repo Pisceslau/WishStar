@@ -88,6 +88,9 @@
     <string name="search_hint">请输入您喜欢的书名:</string>
     <string name="share">分享</string>
     <string name="press_info">出版信息</string>
+    <string name="text_more">更多</string>
+    <string name="label_more">更多</string>
+    <string name="label_less">收起</string>
     <string-array name="feed_type_list">
         <item>@string/feedback_type1</item>
         <item>@string/feedback_type2</item>

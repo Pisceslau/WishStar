@@ -119,6 +119,9 @@
         <activity android:name=".PressInfoActivity">
 
         </activity>
+        <activity android:name=".WelcomeActivity">
+
+        </activity>
     </application>
 
 </manifest>

@@ -12,7 +12,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -28,13 +30,17 @@ import net.tsz.afinal.http.AjaxCallBack;
  * Company: New Thread Android
  * Email: liuwenyueno2@gmail.com
  */
-public class DetailedInfoFragment extends Fragment {
+public class DetailedInfoFragment extends Fragment implements View.OnClickListener {
     String bookId = "";
     ImageView imageView;
     Button button;
     String bookInfo;
     Bundle bundle;
-    TextView textView, summaryTextView;
+    TextView textView, summaryShort, summaryLong, moreText;
+    FrameLayout frameLayout;
+    private boolean isShortText = true;
+
+    private boolean isInit = false;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -66,7 +72,22 @@ public class DetailedInfoFragment extends Fragment {
                             .error(R.drawable.placeholder).into(imageView);
                     //更新Summary
 
-                    summaryTextView.setText(builder);
+                    summaryShort.setText(builder);
+                    summaryLong.setText(builder);
+                    ViewTreeObserver vto = frameLayout.getViewTreeObserver();
+                    vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+                        @Override
+                        public boolean onPreDraw() {
+                            if (isInit)
+                                return true;
+                            if (measureDescription(summaryShort, summaryLong)) {
+                                moreText.setVisibility(View.VISIBLE);
+                            }
+                            isInit = true;
+                            return true;
+
+                        }
+                    });
 
                 }
 
@@ -88,12 +109,36 @@ public class DetailedInfoFragment extends Fragment {
         imageView = (ImageView) view.findViewById(R.id.image_view);
         //图书名字TextView
         textView = (TextView) view.findViewById(R.id.book_name);
+        //FrameLayout框架布局
+        frameLayout = (FrameLayout) view.findViewById(R.id.frame_layout);
         //summary TextView
-        summaryTextView = (TextView) view.findViewById(R.id.summary);
+        summaryShort = (TextView) view.findViewById(R.id.summary_short);
+        summaryLong = (TextView) view.findViewById(R.id.summary_long);
+        moreText = (TextView) view.findViewById(R.id.fold_unfold);
+        //设置监听
+        moreText.setOnClickListener(this);
+        summaryLong.setOnClickListener(this);
+        summaryShort.setOnClickListener(this);
 
         return view;
     }
 
+    /*计算信息(summary)是否过长*/
+    private boolean measureDescription(TextView shortView, TextView longView) {
+        //得到短TextView的高度
+        final int shortHeight = shortView.getHeight();
+        //得到长TextView的高度
+        final int longHeight = longView.getHeight();
+        if (longHeight > shortHeight) {
+            //如果过长则短的可见, 长的GONE
+            shortView.setVisibility(View.VISIBLE);
+            longView.setVisibility(View.GONE);
+            return true;
+        }
+        shortView.setVisibility(View.GONE);
+        longView.setVisibility(View.VISIBLE);
+        return false;
+    }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -220,5 +265,60 @@ public class DetailedInfoFragment extends Fragment {
         }
         return super.onOptionsItemSelected(item);
 
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.fold_unfold:
+                //如果是短文的话,点击更多按钮
+                if (isShortText) {
+                    summaryLong.setVisibility(View.VISIBLE);
+                    summaryShort.setVisibility(View.GONE);
+
+                } else {
+                    summaryShort.setVisibility(View.VISIBLE);
+                    summaryLong.setVisibility(View.GONE);
+
+                }
+                //"更多" 变为 "收起"
+                toggleMoreText(moreText);
+                //使之状态变为长文
+                isShortText = !isShortText;
+                break;
+            //点击短文时候的TextView
+            case R.id.summary_short:
+                summaryLong.setVisibility(View.VISIBLE);
+                summaryShort.setVisibility(View.GONE);
+                //"更多" 变为 "收起"
+                toggleMoreText(moreText);
+                //使之状态变为长文
+                isShortText = !isShortText;
+                break;
+            //点击长文时候的TextView
+            case R.id.summary_long:
+                summaryLong.setVisibility(View.GONE);
+                summaryShort.setVisibility(View.VISIBLE);
+                //"更多" 变为 "收起"
+                toggleMoreText(moreText);
+                //使之状态变为长文
+
+                break;
+            default:
+                break;
+
+        }
+    }
+
+    /*更改按钮更多的文本*/
+    private void toggleMoreText(TextView textView) {
+        String text = textView.getText().toString();
+        String moreText = getString(R.string.label_more);
+        String lessText = getString(R.string.label_less);
+        if (moreText.equals(text)) {
+            textView.setText(lessText);
+        } else {
+            textView.setText(moreText);
+        }
     }
 }

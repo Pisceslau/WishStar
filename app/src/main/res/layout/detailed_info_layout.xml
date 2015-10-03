@@ -16,6 +16,7 @@
             android:layout_height="250dp"
             android:contentDescription="@string/app_name"
             android:scaleType="center" />
+
         <!--书籍名-->
         <TextView
             android:id="@+id/book_name"
@@ -25,15 +26,9 @@
             android:paddingRight="2dp"
             android:textColor="#000000"
             android:textSize="18sp" />
-        <!--书籍摘要总结-->
-        <TextView
-            android:id="@+id/summary"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="2dp"
-            android:paddingRight="2dp"
-            android:textColor="#696969" />
+
         <!--书籍出版社等点击到出版详细信息-->
+
         <Button
             android:id="@+id/press_info"
             android:layout_width="match_parent"
@@ -43,6 +38,43 @@
             android:drawableRight="@drawable/ic_keyboard_arrow_right_black_24dp"
             android:gravity="start|center_vertical"
             android:textColor="#696960" />
+        <!--书籍摘要总结-->
+        <FrameLayout
+            android:id="@+id/frame_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <!--短摘要-->
+            <TextView
+                android:id="@+id/summary_short"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="4"
+                android:paddingLeft="2dp"
+                android:paddingRight="2dp"
+                android:textColor="#696969"
+                android:clickable="true" />
+            <!--长摘要-->
+            <TextView
+                android:id="@+id/summary_long"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="2dp"
+                android:paddingRight="2dp"
+                android:textColor="#696969"
+                android:clickable="true" />
+
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/fold_unfold"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:gravity="center"
+            android:text="@string/label_more"
+            android:textColor="#66DD17"
+            android:textSize="13sp"
+            android:visibility="gone"
+            android:clickable="true" />
         <!--RecyclerView 读者评论列表-->
 
     </LinearLayout>
