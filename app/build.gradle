@@ -45,9 +45,12 @@ dependencies {
     compile files('libs/Bmob_Push_V0.6beta_20150408.jar')
     compile files('libs/BmobSDK_V3.4.1_0710.jar')
     compile files('libs/mta-sdk-1.6.2.jar')
+    compile files('libs/mta-sdk-1.6.2.jar')
     compile files('libs/open_sdk_r5043.jar')
     compile 'konifar:fab-transformation:1.0.0'
     compile 'org.immutables:gson:2.0.16'
     compile 'com.github.glomadrian:MaterialAnimatedSwitch:1.1@aar'
     compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.squareup.okhttp:okhttp:2.5.0'
+    compile 'com.squareup.okio:okio:1.6.0'
 }

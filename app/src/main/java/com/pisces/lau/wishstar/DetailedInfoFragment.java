@@ -1,5 +1,6 @@
 package com.pisces.lau.wishstar;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -41,6 +42,8 @@ public class DetailedInfoFragment extends Fragment implements View.OnClickListen
     private boolean isShortText = true;
 
     private boolean isInit = false;
+
+
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -48,13 +51,23 @@ public class DetailedInfoFragment extends Fragment implements View.OnClickListen
             if (msg.what == 1) {
                 Log.v("info", msg.getData().toString());
                 String[] infos = msg.getData().getStringArray("info");
-                String[] pressInfos = msg.getData().getStringArray("pressInfo");
+                final String[] pressInfos = msg.getData().getStringArray("pressInfo");
                 if (pressInfos != null) {
                     String author = pressInfos[0];
                     String publisher = pressInfos[1];
                     String pubDate = pressInfos[2];
                     StringBuilder builder = new StringBuilder(author).append("/").append(publisher).append("/").append(pubDate);
                     button.setText(builder);
+
+                    button.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent intent = new Intent(getActivity(), PressInfoActivity.class);
+                            intent.putExtra("p", pressInfos);
+                            startActivity(intent);
+
+                        }
+                    });
 
 
                 }
@@ -228,8 +241,7 @@ public class DetailedInfoFragment extends Fragment implements View.OnClickListen
         final DetailedInfo.ImagesEntity imagesEntity = detailedInfo.getImages();
         Log.v("gson", imagesEntity.getLarge());
         final String[] pressInfo = {authors, publisher, translators, pubDate, pages, price, binding, isbn};
-        bundle = new Bundle();
-        bundle.putStringArray("pressInfo", pressInfo);
+
 
         new Thread(new Runnable() {
             @Override

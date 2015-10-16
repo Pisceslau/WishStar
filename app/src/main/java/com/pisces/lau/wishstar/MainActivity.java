@@ -170,6 +170,7 @@ public class MainActivity extends AppCompatActivity {
                             shoppingFragment.setArguments(bundle);
                         FragmentTransaction fragmentTransaction2 = getSupportFragmentManager().beginTransaction();
                         fragmentTransaction2.replace(R.id.frame, shoppingFragment).commit();
+                        toolbar.getBackground().setAlpha(0);
 
                         return true;
 

@@ -15,7 +15,7 @@ import com.pisces.lau.wishstar.util.BaseActivity;
  */
 public class PressInfoActivity extends BaseActivity {
     TextView textView;
-    StringBuilder pressInfo;
+    StringBuilder builder = new StringBuilder("");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,17 +24,18 @@ public class PressInfoActivity extends BaseActivity {
         textView = (TextView) findViewById(R.id.pressInfo_text);
 
         Intent intent = getIntent();
-        Bundle bundle = intent.getBundleExtra("pressInfo");
-        String[] pressInfoArray = bundle.getStringArray("pressInfo");
+        String[] pressInfoArray = intent.getStringArrayExtra("p");
+
 
 
         if (pressInfoArray != null) {
             for (String pressInfoArrayItem : pressInfoArray) {
                 Log.v("pressInfo2", pressInfoArrayItem);
-                pressInfo.append(pressInfoArrayItem).append("\n");
-                textView.setText(pressInfo);
+                builder.append(pressInfoArrayItem).append("\n");
+
             }
         }
+        textView.setText(builder);
     }
 
     //出版信息
