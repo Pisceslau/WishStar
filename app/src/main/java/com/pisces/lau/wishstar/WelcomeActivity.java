@@ -1,7 +1,6 @@
 package com.pisces.lau.wishstar;
 
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -10,9 +9,12 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
+import android.widget.TextView;
 
-import com.pisces.lau.wishstar.util.HttpUtils;
 import com.squareup.picasso.Picasso;
+
+import net.tsz.afinal.FinalHttp;
+import net.tsz.afinal.http.AjaxCallBack;
 
 import org.json.JSONObject;
 
@@ -32,6 +34,7 @@ import java.util.Locale;
 public class WelcomeActivity extends AppCompatActivity {
     /* TextView dateView;*/
     ImageView imageView;
+    TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +46,7 @@ public class WelcomeActivity extends AppCompatActivity {
         setContentView(R.layout.welcome_layout);
         /*dateView = (TextView) findViewById(R.id.date_view);*/
         imageView = (ImageView) findViewById(R.id.splash_view);
+        textView = (TextView) findViewById(R.id.photoInfo);
         //设置时间显示在欢迎界面TextView中
       /*  dateView.setText(getCurrentDate());
 */
@@ -51,14 +55,78 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     private void InitImage() {
+        try {
         File dir = getFilesDir();
-        final File imgFile = new File(dir, "start.jpg");
-        if (imgFile.exists()) {
-            imageView.setImageBitmap(BitmapFactory.decodeFile(imgFile.getAbsolutePath()));
+            final File imgFile = new File(dir, "start.jpg");
 
-        } else {
-            imageView.setImageResource(R.drawable.welcome);
+            /*OkHttpClient okHttpClient=new OkHttpClient();
+            HttpUtils.StringParser parser=new HttpUtils.StringParser();
+            Request request = new Request.Builder().url("https://www.baidu.com").build();
+            okHttpClient.newCall(request).enqueue(Callback<String>(parser) {
+                @Override
+                public void onResponse(String s) {
+                    Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
+                }
+
+            });*/
+       /*     Log.v("json",json);
+            JSONObject jsonObject = new JSONObject(json);
+            String url = jsonObject.getString("img");
+            Log.v("url", url);
+            Picasso.with(WelcomeActivity.this).load(url).into(imageView);*/
+            FinalHttp fh = new FinalHttp();
+            fh.get(AppConstants.SPLASH_PHOTO_API, new AjaxCallBack<String>() {
+                @Override
+                public void onStart() {
+
+                }
+
+                @Override
+                public void onLoading(long count, long current) {
+
+                }
+
+                @Override
+                public void onSuccess(String result) {
+                    try {
+                        Log.v("json", result);
+                        JSONObject jsonObject = new JSONObject(result);
+                        String url = jsonObject.getString("img");
+                        String text = jsonObject.getString("text");
+                        Log.v("url", url);
+
+                        Picasso.with(WelcomeActivity.this).load(url).into(imageView);
+                        textView.setText(text);
+
+                        //    parseResult(result);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+
+                @Override
+                public void onFailure(Throwable t, int errorNo, String strMsg) {
+                    super.onFailure(t, errorNo, strMsg);
+                }
+            });
+            // Log.v("json",json);
+         /*   JSONObject jsonObject = new JSONObject(re);
+            String url = jsonObject.getString("img");
+            Log.v("url", url);
+         Picasso.with(WelcomeActivity.this).load(url).into(imageView);*/
+            //saveImage(imgFile, url);
+   /*         if (imgFile.exists()) {
+                imageView.setImageBitmap(BitmapFactory.decodeFile(imgFile.getAbsolutePath()));
+
+            } else {
+                imageView.setImageResource(R.drawable.welcome);
+            }*/
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
+
         final ScaleAnimation scaleAnimation = new ScaleAnimation(1.0f, 1.2f, 1.0f, 1.2f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         scaleAnimation.setFillAfter(true);
         scaleAnimation.setDuration(3000);
@@ -71,24 +139,29 @@ public class WelcomeActivity extends AppCompatActivity {
             @Override
             public void onAnimationEnd(Animation animation) {
                 //如果网络连接的话
-                if (HttpUtils.isNetworkConnected(WelcomeActivity.this)) {
+             /*   if (HttpUtils.isNetworkConnected(WelcomeActivity.this))
+                {*/
                     try {
-                        String jsonData = HttpUtils.getString(AppConstants.SPLASH_PHOTO_API);
+                        //   byte[] bytes = HttpUtils.getString(AppConstants.SPLASH_PHOTO_API);
 
-                        JSONObject jsonObject = new JSONObject(jsonData);
-                        //获得图片的URL
+           /*             OkHttpClient client = new OkHttpClient();
+                        Request request = new Request.Builder().url(AppConstants.SPLASH_PHOTO_API).build();
+                        Response response = client.newCall(request).execute();
+                        byte[] bytes = response.body().bytes();
+
+                        JSONObject jsonObject = new JSONObject(new String(bytes));
                         String url = jsonObject.getString("img");
                         Log.v("url", url);
 
-                        Picasso.with(WelcomeActivity.this).load(url).placeholder(R.drawable.welcome).into(imageView);
-                        // saveImage(imgFile, bytes);
+                        Picasso.with(WelcomeActivity.this).load(url).into(imageView);
+                        saveImage(imgFile,bytes);*/
                         toNextActivity();
 
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
-            }
+           /* }*/
 
             @Override
             public void onAnimationRepeat(Animation animation) {

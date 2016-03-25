@@ -17,6 +17,11 @@ import java.io.IOException;
  */
 public class HttpUtils {
 
+    private static final OkHttpClient mOkHttpClient = new OkHttpClient();
+
+    private static final int CALLBACK_SUCCESSFUL = 0x01;
+    private static final int CALLBACK_FAILED = 0x02;
+    // private Handler handler = new UIHandler<>(Callback c=);
 
     //判断是否有网络连接
     public static boolean isNetworkConnected(Context context) {
@@ -59,14 +64,138 @@ public class HttpUtils {
     /*
     OkHttp Http GET
     * */
-    public static String getString(String url) throws IOException {
+/*    public String getString(String url) throws IOException {
 
-        OkHttpClient okHttpClient = new OkHttpClient();
+        StringParser parser = new StringParser();
         Request request = new Request.Builder().url(url).build();
-        Response response = okHttpClient.newCall(request).execute();
-        return response.body().string();
+        Call call = mOkHttpClient.newCall(request);
+        return call.enqueue(new StringCallback<String>(parser) {
+            @Override
+            public void onFailure(Request request, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(String response) {
+
+            }
+        });
+
+
+    }*/
+
+    //解析的方法;该接口传入okhttp给我们返回的Response,我们将其进行解析，
+    public interface Parser<T> {
+        T parse(Response response);
     }
 
+    //默认的返回结果解析之字符串形式
+    public class StringParser implements Parser<String> {
+        @Override
+        public String parse(Response response) {
+            String result = null;
+            try {
+                result = response.body().string();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return result;
+        }
+    }
+
+    //默认的返回结果解析之字节数组形式
+    public class ByteArray implements Parser<byte[]> {
+        @Override
+        public byte[] parse(Response response) {
+            byte[] result = null;
+            try {
+                result = response.body().bytes();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return result;
+        }
+    }
+
+ /*   public class Callback<T> implements com.squareup.okhttp.Callback {
+        private Parser<T> parser;
+
+        ///通过构造函数将我们的Parser传递了进去。
+        public Callback(Parser<T> parser) {
+            if (parser == null) {
+                throw new IllegalArgumentException("Parser can't be null!");
+
+            }
+            this.parser = parser;
+        }
+
+        @Override
+        public void onFailure(Request request, IOException e) {
+            //失败发送失败的消息
+            Message message = Message.obtain();
+            message.what = CALLBACK_FAILED;
+            message.obj = e;
+            handler.sendMessage(message);
+
+        }
+
+        @Override
+        public void onResponse(Response response) throws IOException {
+            if (response.isSuccessful()) {
+                T parseResult = parser.parse(response);
+                Message message = Message.obtain();
+                message.what = CALLBACK_SUCCESSFUL;
+                message.obj = parseResult;
+                handler.sendMessage(message);
+            } else {
+                Message message = Message.obtain();
+                message.what = CALLBACK_FAILED;
+                handler.sendMessage(message);
+            }
+        }
+    }
+
+    static class UIHandler<T> extends Handler {
+        private WeakReference weakReference;
+
+        public UIHandler(HttpUtils.Callback callback) {
+            super(Looper.getMainLooper());
+            weakReference = new WeakReference(callback);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case CALLBACK_SUCCESSFUL: {
+                    T t = (T) msg.obj;
+                    HttpUtils.Callback callback = (HttpUtils.Callback) weakReference.get();
+                    if (callback != null) {
+                        callback.onResponse(t);
+                    }
+                    break;
+                }
+                case CALLBACK_FAILED: {
+                    IOException e = (IOException) msg.obj;
+                    HttpUtils.Callback callback = (HttpUtils.Callback) weakReference.get();
+                    if (callback != null) {
+                        callback.onFailure(,e);
+                    }
+                    break;
+                }
+                default:
+                    super.handleMessage(msg);
+                    break;
+            }
+        }
+    }
+*/
+
+    public interface StringCallback {
+        void onFailure(Request request, IOException e);
+
+        void onResponse(String response);
+    }
     /*
     * OKHttp Http POST
     * */

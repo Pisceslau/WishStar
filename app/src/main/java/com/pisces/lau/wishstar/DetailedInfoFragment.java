@@ -3,6 +3,7 @@ package com.pisces.lau.wishstar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -44,7 +45,7 @@ public class DetailedInfoFragment extends Fragment implements View.OnClickListen
     private boolean isInit = false;
 
 
-    private Handler handler = new Handler() {
+    private Handler handler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);

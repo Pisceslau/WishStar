@@ -95,6 +95,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        //使用singleTask启动模式退出整个应用
+        super.onNewIntent(intent);
+        finish();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE); // 去掉标题
         super.onCreate(savedInstanceState);

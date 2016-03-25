@@ -14,6 +14,8 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_LOGS" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.write_external_storage" />
 
 
     <uses-feature
@@ -119,7 +121,10 @@
         <activity android:name=".PressInfoActivity">
 
         </activity>
-        <activity android:name=".MainActivity">
+        <!--启动模式设置为singleTask，用来退出整个应用-->
+        <activity
+            android:name=".MainActivity"
+            android:launchMode="singleTask">
 
         </activity>
     </application>
