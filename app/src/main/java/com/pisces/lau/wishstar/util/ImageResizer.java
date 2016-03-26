@@ -5,6 +5,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 
+import java.io.FileDescriptor;
+
 /**
  * Created by E440 on 2016/3/25.
  * 图片压缩功能、裁剪
@@ -47,5 +49,14 @@ public class ImageResizer {
         }
         Log.d(TAG, "sampleSize:" + inSampleSize);
         return inSampleSize;
+    }
+
+    public Bitmap decodeSampledBitmapFromFileDescriptor(FileDescriptor fd, int reqWidth, int reqHeight) {
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeFileDescriptor(fd, null, options);
+        options.inSampleSize = calculateSampleSize(options, reqWidth, reqHeight);
+        options.inJustDecodeBounds = false;
+        return BitmapFactory.decodeFileDescriptor(fd, null, options);
     }
 }
