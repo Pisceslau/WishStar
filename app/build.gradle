@@ -55,3 +55,11 @@ dependencies {
     compile 'com.squareup.okio:okio:1.6.0'
     compile 'com.jakewharton:disklrucache:2.0.2'
 }
+task makeJar(type: Copy) {
+
+    from('E:\\AndroidWorkSpace\\WishStar\\app\\src\\main\\java\\com\\pisces\\lau\\wishstar\\util')
+    into('build/libs/')
+
+}
+
+makeJar.dependsOn(build)
