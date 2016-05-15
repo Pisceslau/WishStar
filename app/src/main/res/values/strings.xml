@@ -91,6 +91,8 @@
     <string name="text_more">更多</string>
     <string name="label_more">更多</string>
     <string name="label_less">收起</string>
+    <string name="message_to_message">请发布信息：</string>
+    <string name="public_button">发送到圈子</string>
     <string-array name="feed_type_list">
         <item>@string/feedback_type1</item>
         <item>@string/feedback_type2</item>

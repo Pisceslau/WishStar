@@ -3,4 +3,21 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <EditText
+        android:id="@+id/message_to_public"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/edit_text_selector"
+        android:hint="@string/message_to_message"
+        android:inputType="textMultiLine"
+        android:lines="10" />
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/send_to_public"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/ColorPrimary"
+        android:onClick="send2Public"
+        android:textColor="@color/md_white_1000"
+        android:text="@string/public_button" />
 </LinearLayout>
