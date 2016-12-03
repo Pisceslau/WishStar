@@ -12,12 +12,11 @@
         android:inputType="textMultiLine"
         android:lines="10" />
 
-    <android.support.v7.widget.AppCompatButton
+    <Button
         android:id="@+id/send_to_public"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/ColorPrimary"
-        android:onClick="send2Public"
         android:textColor="@color/md_white_1000"
         android:text="@string/public_button" />
 </LinearLayout>

@@ -1,7 +1,9 @@
 package com.pisces.lau.wishstar;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
@@ -59,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.login_layout);
-        mTencent = Tencent.createInstance(AppConstants.QQ_Login_APP_ID, this.getApplicationContext());
+        /*mTencent = Tencent.createInstance(AppConstants.QQ_Login_APP_ID, this.getApplicationContext());*/
         normalLogin = (Button) findViewById(R.id.normalLogin);
         qqLogin = (Button) findViewById(R.id.qqLogin);
         toRegister = (TextView) findViewById(R.id.to_register);
@@ -93,12 +95,22 @@ public class LoginActivity extends AppCompatActivity {
                     BmobUser bmobUser = BmobUser.getCurrentUser(getApplicationContext());
                     if (bmobUser != null) {
                         //允许用户使用应用,待写
+                        Intent intent = new Intent();
+                        //Intent传递用户名,密码跳转到MainActivity,存入到SharedPreference中
+                        SharedPreferences sharedPreferences = getSharedPreferences(AppConstants.PREFERENCES, Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("username", username);
+                        editor.putString("password", password);
+                        editor.apply();
+                        intent.putExtra(username, password);
+                        intent.setClass(LoginActivity.this, MainActivity.class);
+                        LoginActivity.this.startActivity(intent);
                     }
-                    Intent intent = new Intent();
+                  /*  Intent intent = new Intent();
                     //Intent传递用户名,密码跳转到MainActivity
                     intent.putExtra(username, password);
                     intent.setClass(LoginActivity.this, MainActivity.class);
-                    LoginActivity.this.startActivity(intent);
+                    LoginActivity.this.startActivity(intent);*/
 
                 } else {
                     Log.v(username, "登录失败!");
@@ -186,22 +198,6 @@ public class LoginActivity extends AppCompatActivity {
 
         }
     }
-   /* super.handleMessage(msg);
-    if(msg.what==0){
-        JSONObject response=(JSONObject)msg.obj;
-        if(response.has("nickname")){
-            try{
-                nicknameString=response.getString("nickname");
-                Log.d("用户名",nicknameString);
-            }
-            catch(JSONException e){
-                e.printStackTrace();
-            }
-        }
-    }else if (msg.what==1){
-        Bitmap bitmap=(Bitmap)msg.obj;
-        userLogo.setImageBitmap(bitmap);
-    }*/
 
 
     private Handler mHandler = new MyHandler(this);

@@ -5,8 +5,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -19,9 +17,16 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.pisces.lau.wishstar.bean.User;
 import com.pisces.lau.wishstar.util.Util;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.listener.UpdateListener;
 
 /**
  * Created by Liu Wenyue on 2015/8/17.
@@ -127,10 +132,29 @@ public class HomepageFragment extends Fragment {
         Bundle extras = data.getExtras();
         if (extras != null) {
             Bitmap photo = extras.getParcelable("data");
-            Drawable drawable = new BitmapDrawable(this.getResources(), photo);
-            profileImage.setImageDrawable(drawable);
-            /*上传至服务器代码*/
+            //Drawable drawable = new BitmapDrawable(this.getResources(), photo);
+            //此位置有改动5.15.2016
+            profileImage.setImageBitmap(photo);
 
+            saveBitmap(photo, "/crop_"
+                    + System.currentTimeMillis() + ".png", Environment.getExternalStorageDirectory());
+
+            /*上传至服务器代码*/
+            User newUser = new User();
+            newUser.setProfile(photo);
+            BmobUser bmobUser = BmobUser.getCurrentUser(getContext());
+            newUser.update(getContext(), bmobUser.getObjectId(), new UpdateListener() {
+                @Override
+                public void onSuccess() {
+                    Toast.makeText(getContext(), "更新成功！", Toast.LENGTH_LONG).show();
+                }
+
+                @Override
+                public void onFailure(int code, String msg) {
+                    Toast.makeText(getContext(), "更新失败！", Toast.LENGTH_LONG).show();
+
+                }
+            });
 
         }
     }
@@ -151,6 +175,25 @@ public class HomepageFragment extends Fragment {
         intent.putExtra("return-data", true);
         startActivityForResult(intent, RESULT_REQUEST_CODE);
     }
+/*保存图片*/
 
+    public void saveBitmap(Bitmap bitmap, String fileName, File baseFile) {
+        FileOutputStream bos = null;
+        File imgFile = new File(baseFile, "/" + fileName);
+        try {
 
+            bos = new FileOutputStream(imgFile);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, bos);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                bos.flush();
+                bos.close();
+                Toast.makeText(this.getContext(), "保存成功！", Toast.LENGTH_SHORT).show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

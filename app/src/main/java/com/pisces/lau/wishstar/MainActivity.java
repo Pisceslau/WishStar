@@ -1,16 +1,20 @@
 package com.pisces.lau.wishstar;
 
 import android.app.SearchManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.IBinder;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -18,6 +22,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,6 +34,8 @@ import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.konifar.fab_transformation.FabTransformation;
+import com.pisces.lau.wishstar.service.LoadBinder;
+import com.pisces.lau.wishstar.service.LoadService;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -58,8 +65,11 @@ public class MainActivity extends AppCompatActivity {
     private ImageView[] images;//ImageView数组
 
     boolean doubleBackToExitPressedOnce = false;//默认双按后退键离开:false
-
-
+  /*  MusicFragment musicFragment;
+    ShoppingFragment shoppingFragment;
+    WishPublishFragment wishPublishFragment;
+    ContentFragment contentFragment;
+*/
     private static Uri getOutputMediaFileUri(int type) {
         return Uri.fromFile(getOutputMediaFile(type));
     }
@@ -111,7 +121,11 @@ public class MainActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         frame = (FrameLayout) findViewById(R.id.frame);
         navigationView = (NavigationView) findViewById(R.id.navigation);
-        circleImageView = (CircleImageView) findViewById(R.id.profile_image);
+        //因为circleImageView 在header布局所以先加载header布局！
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View header = inflater.inflate(R.layout.header,navigationView, false);
+        circleImageView = (CircleImageView) header.findViewById(R.id.profile_image);
+
         images = new ImageView[3];
         if (toolbar != null) {
             setSupportActionBar(toolbar);
@@ -131,76 +145,17 @@ public class MainActivity extends AppCompatActivity {
         }
 
         initViews();
-
+        normalGo();
 
         circleImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //点击头像进入用户个人信息设置界面,即应用设置界面的二级界面
                 Intent intent = new Intent(MainActivity.this, UserInfoActivity.class);
-                MainActivity.this.startActivity(intent);
+                startActivity(intent);
 
             }
         });
-
-
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-
-            @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
-
-                if (menuItem.isChecked()) menuItem.setChecked(false);
-                else menuItem.setChecked(true);
-
-                drawerLayout.closeDrawers();
-                //检查看哪一个条目是正在点击和执行合适的动作
-                switch (menuItem.getItemId()) {
-                    //取代主布局伴随着ContentFragment
-                    case R.id.home:
-
-
-                        return true;
-
-                    case R.id.drawer_accepted:
-
-
-                        ContentFragment contentFragment = new ContentFragment();
-                        FragmentTransaction fragmentTransaction1 = getSupportFragmentManager().beginTransaction();
-                        fragmentTransaction1.replace(R.id.frame, contentFragment);
-                        fragmentTransaction1.commit();
-
-                        return true;
-                    case R.id.drawer_sales:
-
-                        ShoppingFragment shoppingFragment = new ShoppingFragment();
-                        if (bundle != null)
-                            shoppingFragment.setArguments(bundle);
-                        FragmentTransaction fragmentTransaction2 = getSupportFragmentManager().beginTransaction();
-                        fragmentTransaction2.replace(R.id.frame, shoppingFragment).commit();
-
-
-                        return true;
-
-
-                    case R.id.drawer_setting:
-                        Intent intentSetting = new Intent(MainActivity.this, SettingActivity.class);
-
-                        startActivity(intentSetting);
-                        return true;
-                    case R.id.drawer_logout:
-                        //登出
-                        BmobUser.logOut(getApplicationContext());   //清除缓存用户对象
-                        BmobUser currentUser = BmobUser.getCurrentUser(getApplicationContext()); // 现在的currentUser是null了
-
-                        return true;
-                    default:
-                        return true;
-
-                }
-
-            }
-        });
-
 
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.openDrawer, R.string.closeDrawer) {
             @Override
@@ -213,8 +168,83 @@ public class MainActivity extends AppCompatActivity {
                 super.onDrawerClosed(drawerView);
             }
         };
-        drawerLayout.setDrawerListener(actionBarDrawerToggle);
+
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
+
+    }
+
+    private void normalGo() {
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            Fragment fragment = null;
+            Class fragmentClass = null;
+
+            @Override
+            public boolean onNavigationItemSelected(MenuItem menuItem) {
+                selectDrawerItem(menuItem);
+                return true;
+
+            }
+        });
+    }
+
+    private void selectDrawerItem(MenuItem menuItem) {
+        Fragment fragment = null;
+        Class fragmentClass = Fragment.class;
+        switch(menuItem.getItemId()) {
+            case R.id.home:
+                fragmentClass = WishPublishFragment.class;
+
+                break;
+            case R.id.drawer_accepted:
+                fragmentClass = ContentFragment.class;
+
+                break;
+            case R.id.drawer_sales:
+
+                fragmentClass = ShoppingFragment.class;
+
+                break;
+            case R.id.drawer_music:
+                fragmentClass = MusicFragment.class;
+
+                break;
+            case R.id.drawer_setting:
+                Intent intentSetting = new Intent(MainActivity.this, SettingActivity.class);
+
+                startActivity(intentSetting);
+                break;
+            case R.id.drawer_logout:
+                //登出
+                BmobUser.logOut(getApplicationContext());   //清除缓存用户对象
+                BmobUser currentUser = BmobUser.getCurrentUser(getApplicationContext()); // 现在的currentUser是null了
+
+                break;
+            default:
+            /*    fragmentClass = WishPublishFragment.class;*/
+
+        }
+
+        // Insert the fragment by replacing any existing fragment
+        try {
+            fragment = (Fragment) fragmentClass.newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (fragment instanceof ShoppingFragment)
+        {
+            fragment.setArguments(bundle);
+
+        }
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.frame, fragment).commit();
+
+        // Highlight the selected item has been done by NavigationView
+        menuItem.setChecked(true);
+        // Set action bar title
+        setTitle(menuItem.getTitle());
+        // Close the navigation drawer
+        drawerLayout.closeDrawers();
 
     }
 
@@ -223,6 +253,7 @@ public class MainActivity extends AppCompatActivity {
         images[0] = (ImageView) findViewById(R.id.image_1);
         images[1] = (ImageView) findViewById(R.id.image_2);
         images[2] = (ImageView) findViewById(R.id.image_3);
+
 
         scrollView = (ScrollView) findViewById(R.id.scroll_view);
         floatingActionButton = (FloatingActionButton) findViewById(R.id.fab);
@@ -371,7 +402,6 @@ public class MainActivity extends AppCompatActivity {
                     bundle = new Bundle();
                     bundle.putString("query", searchString);
 
-
                     return true;
                 }
 
@@ -402,7 +432,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_compose:
                 Intent intent = new Intent(MainActivity.this, ComposeActivity.class);
                 startActivity(intent);
-                //Activity出现方向,出现了多重现象,待解决
+                //Activity出现方向,出现了多重现象,待解决,滑动冲突？？？？？？
                /* overridePendingTransition(R.anim.right_to_left, R.anim.left_to_right);*/
 
                 return true;
@@ -411,5 +441,36 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public LoadBinder myBinder;
+    private ServiceConnection connection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            myBinder = (LoadBinder) service;
+            //使用www.baidu.com测试
+            myBinder.startDownload(getApplicationContext(), "http://www.baidu.com");
+        }
 
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+
+        }
+    };
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Intent intent = new Intent(this, LoadService.class);
+        startService(intent);
+        bindService(intent, connection, BIND_AUTO_CREATE);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //解绑和消除Service
+        Intent intent = new Intent(this, LoadService.class);
+        stopService(intent);
+        unbindService(connection);
+
+    }
 }

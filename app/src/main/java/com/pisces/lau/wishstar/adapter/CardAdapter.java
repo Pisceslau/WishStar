@@ -31,6 +31,10 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
 
     }
 
+    public CardAdapter(Context context) {
+        this.context = context;
+    }
+
     @Override
     public long getItemId(int position) {
         return super.getItemId(position);

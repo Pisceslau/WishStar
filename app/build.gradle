@@ -56,6 +56,9 @@ dependencies {
     compile 'com.squareup.okio:okio:1.6.0'
     compile 'com.jakewharton:disklrucache:2.0.2'
     //compile 'cn.bmob.android:bmob-push:0.8'
+    compile 'com.android.volley:volley:1.0.0'
+    /*开源库：爆炸视图动画*/
+    compile 'tyrantgit:explosionfield:1.0.1'
 }
 task makeJar(type: Copy) {
 

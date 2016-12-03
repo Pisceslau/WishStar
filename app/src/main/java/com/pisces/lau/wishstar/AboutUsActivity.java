@@ -49,7 +49,9 @@ public class AboutUsActivity extends BaseActivity {
         toFeedback = (Button) findViewById(R.id.to_feedback);
 
         collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        collapsingToolbarLayout.setTitle("关于我们");
+        if (collapsingToolbarLayout != null) {
+            collapsingToolbarLayout.setTitle("关于我们");
+        }
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.us_text);
 
 

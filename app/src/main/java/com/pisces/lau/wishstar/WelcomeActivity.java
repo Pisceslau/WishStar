@@ -1,6 +1,8 @@
 package com.pisces.lau.wishstar;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -51,10 +53,11 @@ public class WelcomeActivity extends AppCompatActivity {
       /*  dateView.setText(getCurrentDate());
 */
         //初始化欢迎图片
-        InitImage();
+        initImages();
+
     }
 
-    private void InitImage() {
+    private void initImages() {
         try {
         File dir = getFilesDir();
             final File imgFile = new File(dir, "start.jpg");
@@ -94,7 +97,7 @@ public class WelcomeActivity extends AppCompatActivity {
                         String url = jsonObject.getString("img");
                         String text = jsonObject.getString("text");
                         Log.v("url", url);
-
+                        //封面error()情况的图片
                         Picasso.with(WelcomeActivity.this).load(url).into(imageView);
                         textView.setText(text);
 
@@ -172,8 +175,19 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     private void toNextActivity() {
-        Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
-        startActivity(intent);
+        SharedPreferences sharedPreferences = getSharedPreferences(AppConstants.PREFERENCES, Context.MODE_PRIVATE);
+        String e = sharedPreferences.getString("username", "");
+        String p = sharedPreferences.getString("password", "");
+        Intent intent;
+        if (!e.equals("") && !p.equals("")) {
+            intent = new Intent(WelcomeActivity.this, MainActivity.class);
+            startActivity(intent);
+
+        } else {
+            intent = new Intent(WelcomeActivity.this, LoginActivity.class);
+            startActivity(intent);
+
+        }
         overridePendingTransition(android.R.anim.fade_in,
                 android.R.anim.fade_out);
         finish();

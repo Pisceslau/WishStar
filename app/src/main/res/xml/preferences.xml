@@ -18,6 +18,7 @@
             android:title="@string/pref_brief" />
 
     </PreferenceCategory>
+
     <!--常规设置-->
     <PreferenceCategory
         android:key="pref_normal_setting"
@@ -30,11 +31,14 @@
             android:switchTextOn="@string/pref_offline_open"
             android:title="@string/pref_offline"
             android:defaultValue="false"/>
+
         <!--常规设置:2G/3G网络下加载图片-->
         <SwitchPreference
             android:key="pref_2G_3G_load_image"
             android:title="@string/pref_2G_3G_load_image" />
         <!--推送通知-->
+
+
         <PreferenceScreen
             android:key="pref_push_notification"
             android:persistent="false"
@@ -84,6 +88,8 @@
             android:negativeButtonText="@string/clear_cache_no"
             android:positiveButtonText="@string/clear_cache_yes"/>
     </PreferenceCategory>
+
+
     <!--应用信息-->
     <PreferenceCategory
         android:key="pref_app_info"

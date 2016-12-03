@@ -9,10 +9,7 @@
     <include
         android:id="@+id/toolbar"
         layout="@layout/tool_bar"/>
-   <!-- <include
-        android:id="@+id/swipe_refresh_layout"
-        layout="@layout/swipe_refresh_layout"/>-->
-    <!--TabLayout-->
+
     <android.support.design.widget.TabLayout
         android:id="@+id/tabs"
         android:layout_width="match_parent"

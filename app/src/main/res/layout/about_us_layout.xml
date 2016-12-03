@@ -93,7 +93,7 @@
     </android.support.v4.widget.NestedScrollView>
 
 
-    <android.support.design.widget.FloatingActionButton
+   <!-- <android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
@@ -101,7 +101,7 @@
         android:src="@drawable/ic_add_white_18dp"
         app:backgroundTint="#FF4081"
         app:layout_anchor="@+id/appbar"
-        app:layout_anchorGravity="bottom|right|end" />
+        app:layout_anchorGravity="bottom|right|end" />-->
 
     <Button
         android:id="@+id/to_feedback"

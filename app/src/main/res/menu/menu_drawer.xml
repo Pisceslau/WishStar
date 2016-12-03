@@ -5,18 +5,22 @@
             android:id="@+id/home"
             android:icon="@drawable/ic_favorite_white_48dp"
             android:title="@string/home"
-            android:checked="false"/>
+           />
         <item
             android:id="@+id/drawer_accepted"
             android:icon="@drawable/ic_stars_white_48dp"
             android:title="@string/accepted"
-            android:checked="false"/>
+            />
         <item
             android:id="@+id/drawer_sales"
             android:icon="@drawable/ic_add_shopping_cart_white_48dp"
             android:title="@string/sales"
-            android:checked="false"/>
+            />
+        <item
+            android:id="@+id/drawer_music"
+            android:title="@string/music"
 
+            android:icon="@drawable/ic_music_note_white_48dp"/>
 
     </group>
     <item android:title="@string/navigation_view_subtitle">
@@ -27,13 +31,13 @@
                 android:id="@+id/drawer_setting"
                 android:icon="@drawable/ic_settings_white_48dp"
                 android:title="@string/setting"
-                android:checked="false"/>
-           <!--登出的icon未设置-->
+              />
+
             <item
                 android:id="@+id/drawer_logout"
                 android:title="@string/logout"
                 android:icon="@drawable/ic_exit_to_app_white_48dp"
-                android:checked="false"/>
+                />
 
         </menu>
     </item>

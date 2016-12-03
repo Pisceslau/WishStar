@@ -26,15 +26,15 @@ public class UserInfoActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // do extra stuff on your resources, using findViewById on your layout for the activity
-        //findViewById();
+
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         viewPager.setAdapter(new TabFragmentPagerAdapter(getSupportFragmentManager()));
 
         //Give the TabLayout the ViewPager
         tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(viewPager);
-
+        if (tabLayout != null) {
+            tabLayout.setupWithViewPager(viewPager);
+        }
 
 
     }
@@ -75,12 +75,7 @@ public class UserInfoActivity extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-     /*   int id = item.getItemId();*/
-     /*   switch (id) {
-            //case R.id.:
-            //return true;
-            //case R.id.:
-        }*/
+
         return super.onOptionsItemSelected(item);
     }
 }

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/girl2">
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/name_input"
@@ -67,6 +68,14 @@
         android:layout_below="@id/pin"
         android:background="@color/ColorPrimary"
         android:text="@string/register"
+        android:textColor="@color/md_white_1000" />
+    <Button
+        android:id="@+id/user_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/user_register"
+        android:background="@color/accent_material_light"
+        android:text="@string/login"
         android:textColor="@color/md_white_1000" />
 
 </RelativeLayout>

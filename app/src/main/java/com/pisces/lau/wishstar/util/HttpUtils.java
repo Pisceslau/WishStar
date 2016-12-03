@@ -4,9 +4,13 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
+
+import org.json.JSONObject;
 
 import java.io.IOException;
 
@@ -196,6 +200,7 @@ public class HttpUtils {
 
         void onResponse(String response);
     }
+
     /*
     * OKHttp Http POST
     * */
@@ -208,6 +213,21 @@ public class HttpUtils {
 
         Picasso.with(context).load(url).into(imageView);
     }*/
+/*Volley适用于小规模而多的数据 JSON
+* 参数为JSON数据的URL*/
+    public void handleJSONData(String url) {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null, new com.android.volley.Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
 
+            }
+
+        }, new com.android.volley.Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+    }
 }
 
