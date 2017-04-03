@@ -1,20 +1,20 @@
 package com.pisces.lau.wishstar;
 
 import android.app.SearchManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.os.IBinder;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -34,7 +34,6 @@ import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.konifar.fab_transformation.FabTransformation;
-import com.pisces.lau.wishstar.service.LoadBinder;
 import com.pisces.lau.wishstar.service.LoadService;
 
 import java.io.File;
@@ -65,11 +64,12 @@ public class MainActivity extends AppCompatActivity {
     private ImageView[] images;//ImageView数组
 
     boolean doubleBackToExitPressedOnce = false;//默认双按后退键离开:false
-  /*  MusicFragment musicFragment;
-    ShoppingFragment shoppingFragment;
-    WishPublishFragment wishPublishFragment;
-    ContentFragment contentFragment;
-*/
+
+    /*  MusicFragment musicFragment;
+      ShoppingFragment shoppingFragment;
+      WishPublishFragment wishPublishFragment;
+      ContentFragment contentFragment;
+  */
     private static Uri getOutputMediaFileUri(int type) {
         return Uri.fromFile(getOutputMediaFile(type));
     }
@@ -120,12 +120,13 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         frame = (FrameLayout) findViewById(R.id.frame);
+
         navigationView = (NavigationView) findViewById(R.id.navigation);
         //因为circleImageView 在header布局所以先加载header布局！
         LayoutInflater inflater = LayoutInflater.from(this);
-        View header = inflater.inflate(R.layout.header,navigationView, false);
+        View header = inflater.inflate(R.layout.header, navigationView, false);
         circleImageView = (CircleImageView) header.findViewById(R.id.profile_image);
-
+        circleImageView.bringToFront();//避免隐藏imageView
         images = new ImageView[3];
         if (toolbar != null) {
             setSupportActionBar(toolbar);
@@ -172,6 +173,7 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
 
+
     }
 
     private void normalGo() {
@@ -191,14 +193,14 @@ public class MainActivity extends AppCompatActivity {
     private void selectDrawerItem(MenuItem menuItem) {
         Fragment fragment = null;
         Class fragmentClass = Fragment.class;
-        switch(menuItem.getItemId()) {
+        switch (menuItem.getItemId()) {
             case R.id.home:
                 fragmentClass = WishPublishFragment.class;
 
                 break;
             case R.id.drawer_accepted:
-                fragmentClass = ContentFragment.class;
-
+                Intent intent = new Intent(MainActivity.this, AccelerometerActivity.class);
+                startActivity(intent);
                 break;
             case R.id.drawer_sales:
 
@@ -231,8 +233,7 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if (fragment instanceof ShoppingFragment)
-        {
+        if (fragment instanceof ShoppingFragment) {
             fragment.setArguments(bundle);
 
         }
@@ -322,7 +323,12 @@ public class MainActivity extends AppCompatActivity {
                         intent2.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
                         //启动拍照intent
                         if (intent2.resolveActivity(getPackageManager()) != null) {
-                            startActivityForResult(intent2, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+
+
+                            if (hasPermissionInManifest(getApplicationContext(), "CAMERA")) {
+                                startActivityForResult(intent2, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+                            }
+
                         }
                         break;
                     case R.id.image_3:
@@ -341,7 +347,24 @@ public class MainActivity extends AppCompatActivity {
 
         }
     };
+    public boolean hasPermissionInManifest(Context context, String permissionName) {
+        final String packageName = context.getPackageName();
+        try {
+            final PackageInfo packageInfo = context.getPackageManager()
+                    .getPackageInfo(packageName, PackageManager.GET_PERMISSIONS);
+            final String[] declaredPermissions = packageInfo.requestedPermissions;
+            if (declaredPermissions != null && declaredPermissions.length > 0) {
+                for (String p : declaredPermissions) {
+                    if (p.equals(permissionName)) {
+                        return true;
+                    }
+                }
+            }
+        } catch (PackageManager.NameNotFoundException e) {
 
+        }
+        return false;
+    }
     @Override
     public void onBackPressed() {
         //如果FAB不可见
@@ -373,6 +396,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
     }
 
     @Override
@@ -401,6 +425,7 @@ public class MainActivity extends AppCompatActivity {
 
                     bundle = new Bundle();
                     bundle.putString("query", searchString);
+                    replaceFragment(new ShoppingFragment());
 
                     return true;
                 }
@@ -417,7 +442,18 @@ public class MainActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    private void replaceFragment(Fragment fragment) {
+        if (bundle != null) {
+            fragment.setArguments(bundle);
+        }
 
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.frame, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -441,7 +477,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public LoadBinder myBinder;
+ /*   public LoadBinder myBinder;
     private ServiceConnection connection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
@@ -454,14 +490,14 @@ public class MainActivity extends AppCompatActivity {
         public void onServiceDisconnected(ComponentName name) {
 
         }
-    };
+    };*/
 
     @Override
     protected void onResume() {
         super.onResume();
         Intent intent = new Intent(this, LoadService.class);
         startService(intent);
-        bindService(intent, connection, BIND_AUTO_CREATE);
+       // bindService(intent, connection, BIND_AUTO_CREATE);
     }
 
     @Override
@@ -470,7 +506,7 @@ public class MainActivity extends AppCompatActivity {
         //解绑和消除Service
         Intent intent = new Intent(this, LoadService.class);
         stopService(intent);
-        unbindService(connection);
+     //   unbindService(connection);
 
     }
 }

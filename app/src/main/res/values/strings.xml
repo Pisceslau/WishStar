@@ -77,13 +77,13 @@
     <string name="feedback" />
     <string name="pref_feedback">意见反馈</string>
     <string name="pref_about_us">关于我们</string>
-    <string name="app_intro">愿望星是一款为智能终端提供即时通讯服务的社交许愿软件。愿望星支持跨通信运营商、跨操作系统平台通过网络快速发送免费（需消耗少量网络流量）语音 短信、视频、图片和文字。
+    <string name="app_intro">愿望星是一款为智能终端提供基于传感器的移动监测的老人寻找和社交许愿软件。愿望星支持跨通信运营商、跨操作系统平台通过网络快速发送免费（需消耗少量网络流量）语音 短信、视频、图片和文字。
 
 在这里，你可以释放一切小宇宙去寻找与你志同道合的人。无论是去沙漠看下暴雨、还是看大海亲吻鲨鱼，抑或去听空谷的回音；只要你敢说，就会有人响应。你还可以通过私信和朋友以及附近的人进行一对一交流，阅后即焚功能更加保密和安全。更可以创建和加入群聊，聊天更加随心所遇，尽情释放 另一面的社交人格。我们还有活动推荐，软件系统智能的选取浏览量最高，趣味性最好，可行性最高的帖子或者周边娱乐活动进行推荐，能提高用户的积极度和参与性。
 
 愿望星不是QQ，也不是微信，你看到的和想要做的一切来源于有同样想法的人，而不仅仅局限于身边的同学，朋友！同样， 你发的愿望也可以向你的朋友展示，让最关心你的人的给你反馈！愿望星让你不再只是一个传统意义上的乖小孩，而是一个拥有自己独立想法，独立人格的“特别” 的人！</string>
     <string name="app_copyright">版权所有 @ NewThread SCUEC Android Pisces Lau</string>
-    <string name="app_website">我们的网站</string>
+    <string name="app_website">我的博客</string>
     <string name="image_footer">footer_image</string>
     <string name="search_hint">请输入您喜欢的书名:</string>
     <string name="share">分享</string>

@@ -134,7 +134,10 @@
         <service android:name=".service.LoadService" />
 
         <activity android:name=".PlayMusicActivity"/>
-
+        <service android:name=".service.BService"
+            android:enabled="true"
+            android:exported="true"/>
+        <activity android:name=".AccelerometerActivity" />
 
 </application>
 

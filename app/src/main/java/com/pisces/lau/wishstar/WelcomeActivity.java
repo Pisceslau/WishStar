@@ -4,8 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -18,11 +18,6 @@ import com.squareup.picasso.Picasso;
 import net.tsz.afinal.FinalHttp;
 import net.tsz.afinal.http.AjaxCallBack;
 
-import org.json.JSONObject;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -48,88 +43,17 @@ public class WelcomeActivity extends AppCompatActivity {
         setContentView(R.layout.welcome_layout);
         /*dateView = (TextView) findViewById(R.id.date_view);*/
         imageView = (ImageView) findViewById(R.id.splash_view);
-        textView = (TextView) findViewById(R.id.photoInfo);
-        //设置时间显示在欢迎界面TextView中
-      /*  dateView.setText(getCurrentDate());
-*/
-        //初始化欢迎图片
-        initImages();
 
-    }
 
-    private void initImages() {
-        try {
-        File dir = getFilesDir();
-            final File imgFile = new File(dir, "start.jpg");
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String bingPic = prefs.getString("bing_pic", null);
 
-            /*OkHttpClient okHttpClient=new OkHttpClient();
-            HttpUtils.StringParser parser=new HttpUtils.StringParser();
-            Request request = new Request.Builder().url("https://www.baidu.com").build();
-            okHttpClient.newCall(request).enqueue(Callback<String>(parser) {
-                @Override
-                public void onResponse(String s) {
-                    Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
-                }
+        if (bingPic != null) {
+            Picasso.with(this).load(bingPic).into(imageView);
 
-            });*/
-       /*     Log.v("json",json);
-            JSONObject jsonObject = new JSONObject(json);
-            String url = jsonObject.getString("img");
-            Log.v("url", url);
-            Picasso.with(WelcomeActivity.this).load(url).into(imageView);*/
-            FinalHttp fh = new FinalHttp();
-            fh.get(AppConstants.SPLASH_PHOTO_API, new AjaxCallBack<String>() {
-                @Override
-                public void onStart() {
-
-                }
-
-                @Override
-                public void onLoading(long count, long current) {
-
-                }
-
-                @Override
-                public void onSuccess(String result) {
-                    try {
-                        Log.v("json", result);
-                        JSONObject jsonObject = new JSONObject(result);
-                        String url = jsonObject.getString("img");
-                        String text = jsonObject.getString("text");
-                        Log.v("url", url);
-                        //封面error()情况的图片
-                        Picasso.with(WelcomeActivity.this).load(url).into(imageView);
-                        textView.setText(text);
-
-                        //    parseResult(result);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
-                }
-
-                @Override
-                public void onFailure(Throwable t, int errorNo, String strMsg) {
-                    super.onFailure(t, errorNo, strMsg);
-                }
-            });
-            // Log.v("json",json);
-         /*   JSONObject jsonObject = new JSONObject(re);
-            String url = jsonObject.getString("img");
-            Log.v("url", url);
-         Picasso.with(WelcomeActivity.this).load(url).into(imageView);*/
-            //saveImage(imgFile, url);
-   /*         if (imgFile.exists()) {
-                imageView.setImageBitmap(BitmapFactory.decodeFile(imgFile.getAbsolutePath()));
-
-            } else {
-                imageView.setImageResource(R.drawable.welcome);
-            }*/
-        } catch (Exception e) {
-            e.printStackTrace();
+        } else {
+            loadImages();
         }
-
-
         final ScaleAnimation scaleAnimation = new ScaleAnimation(1.0f, 1.2f, 1.0f, 1.2f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         scaleAnimation.setFillAfter(true);
         scaleAnimation.setDuration(3000);
@@ -141,30 +65,14 @@ public class WelcomeActivity extends AppCompatActivity {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                //如果网络连接的话
-             /*   if (HttpUtils.isNetworkConnected(WelcomeActivity.this))
-                {*/
-                    try {
-                        //   byte[] bytes = HttpUtils.getString(AppConstants.SPLASH_PHOTO_API);
 
-           /*             OkHttpClient client = new OkHttpClient();
-                        Request request = new Request.Builder().url(AppConstants.SPLASH_PHOTO_API).build();
-                        Response response = client.newCall(request).execute();
-                        byte[] bytes = response.body().bytes();
+                try {
+                    toNextActivity();
 
-                        JSONObject jsonObject = new JSONObject(new String(bytes));
-                        String url = jsonObject.getString("img");
-                        Log.v("url", url);
-
-                        Picasso.with(WelcomeActivity.this).load(url).into(imageView);
-                        saveImage(imgFile,bytes);*/
-                        toNextActivity();
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-           /* }*/
+            }
 
             @Override
             public void onAnimationRepeat(Animation animation) {
@@ -172,6 +80,44 @@ public class WelcomeActivity extends AppCompatActivity {
             }
         });
         imageView.startAnimation(scaleAnimation);
+
+    }
+
+    private void loadImages() {
+        FinalHttp fh = new FinalHttp();
+        fh.get(AppConstants.SPLASH_PHOTO_API, new AjaxCallBack<String>() {
+            @Override
+            public void onStart() {
+
+            }
+
+            @Override
+            public void onLoading(long count, long current) {
+
+            }
+
+            @Override
+            public void onSuccess(String result) {
+
+                final String bingPic = result;
+                SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(WelcomeActivity.this).edit();
+                editor.putString("bing_pic", bingPic);
+                editor.apply();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Picasso.with(WelcomeActivity.this).load(bingPic).into(imageView);
+                    }
+                });
+            }
+
+            @Override
+            public void onFailure(Throwable t, int errorNo, String strMsg) {
+                super.onFailure(t, errorNo, strMsg);
+            }
+        });
+
+
     }
 
     private void toNextActivity() {
@@ -194,20 +140,6 @@ public class WelcomeActivity extends AppCompatActivity {
 
     }
 
-    public void saveImage(File file, byte[] bytes) {
-        try {
-            if (file.exists()) {
-                file.delete();
-            }
-            FileOutputStream fos = new FileOutputStream(file);
-            fos.write(bytes);
-            fos.flush();
-            fos.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
     //获取当日日期
     private String getCurrentDate() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);

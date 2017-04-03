@@ -165,7 +165,6 @@ public class DetailedInfoFragment extends Fragment implements View.OnClickListen
             bookId = bundle.getString("bookId");
             Log.v("DetailedInfoFragment", bookId);
             bookInfo = "https://api.douban.com/v2/book/" + bookId;
-            Log.v("xxx", bookInfo);
             getBookInfo(bookInfo);
 
 
@@ -253,7 +252,6 @@ public class DetailedInfoFragment extends Fragment implements View.OnClickListen
                 Bundle bundle = new Bundle();//存放数据
                 bundle.putStringArray("info", new String[]{title, imagesEntity.getLarge(), summary});
                 bundle.putStringArray("pressInfo", pressInfo);
-
 
                 msg.setData(bundle);
                 handler.sendMessage(msg);

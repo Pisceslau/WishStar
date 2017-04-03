@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.pisces.lau.wishstar.R;
 import com.pisces.lau.wishstar.bean.Book;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -20,19 +21,18 @@ import java.util.ArrayList;
  * Email: liuwenyueno2@gmail.com
  */
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
-
+    public static final String TAG = "CardAdapter";
     ArrayList<Book> books;
-    Context context;
+    Context mContext;
 
-    public CardAdapter(Context context,ArrayList<Book> books) {
-        this.context=context;
+    public CardAdapter(ArrayList<Book> books) {
         this.books = books;
 
 
     }
 
     public CardAdapter(Context context) {
-        this.context = context;
+        this.mContext = context;
     }
 
     @Override
@@ -45,16 +45,17 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
 
 
         if (books == null) {
-            Log.v("kkk", "0");
             return 0;
-        } else
-            Log.v("kkk", "非空");
-        return books.size();
-
+        } else {
+            return books.size();
+        }
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        if (mContext == null) {
+            mContext = viewGroup.getContext();
+        }
         View v = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.recycler_view_card_item, viewGroup, false);
         return new ViewHolder(v);
@@ -65,9 +66,9 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
 
 
         Book bookItem = books.get(i);
-        viewHolder.tvNature.setText(bookItem.getId());
-        viewHolder.tvDesNature.setText(bookItem.getTitle());
-        viewHolder.imgThumbnail.setImageResource(R.drawable.us);
+        viewHolder.tvNature.setText(bookItem.getTitle());
+        Picasso.with(mContext).load(bookItem.getImages().getLarge()).into(viewHolder.imgThumbnail);
+
 
     }
 
@@ -75,21 +76,19 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
 
         public ImageView imgThumbnail;
         public TextView tvNature;
-        public TextView tvDesNature;
 
         public ViewHolder(View itemView) {
             super(itemView);
             imgThumbnail = (ImageView) itemView.findViewById(R.id.img_thumbnail);
             tvNature = (TextView) itemView.findViewById(R.id.tv_nature);
-            tvDesNature = (TextView) itemView.findViewById(R.id.tv_des_nature);
             itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
-            int position=getLayoutPosition();
+            int position = getLayoutPosition();
             Book book = books.get(position);
-
+            Log.v(TAG, "hello");
         }
     }
 }

@@ -55,7 +55,7 @@ public class ShoppingFragment extends Fragment {
             if (msg.what == 1) {
                 books = (ArrayList<Book>) msg.obj;
                 //主线程更新UI
-                mAdapter = new CardAdapter(getActivity(), books);
+                mAdapter = new CardAdapter(books);
                 mRecyclerView.setAdapter(mAdapter);
 
             }
@@ -72,7 +72,7 @@ public class ShoppingFragment extends Fragment {
             bookName = this.getArguments().getString("query");
             Log.v("bookName", bookName);
             if (bookName != null) {
-                doubanUrl = "https://api.douban.com/v2/book/search?q=" + bookName + "&=50&fields=id,title";
+                doubanUrl = "https://api.douban.com/v2/book/search?q=" + bookName + "&=50&fields=id,title,images";
             }
         }
 
@@ -103,7 +103,6 @@ public class ShoppingFragment extends Fragment {
         );
 
         getData(doubanUrl);
-      //  startDownload(getActivity(),doubanUrl);
 
         return view;
 
@@ -113,6 +112,7 @@ public class ShoppingFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
     }
+
     //快捷键:语句提取组成方法:Ctrl + Alt + M
     public void startDownload(Context context, String url) {
         //小而多的图片下载使用Volley下载
@@ -133,6 +133,7 @@ public class ShoppingFragment extends Fragment {
         requestQueue.add(request);
 
     }
+
     public void getData(String url) {
         //根据书名获取相关书籍
         FinalHttp fh = new FinalHttp();
@@ -174,7 +175,7 @@ public class ShoppingFragment extends Fragment {
         Type listType = new TypeToken<ArrayList<Book>>() {
         }.getType();
         books = gson.fromJson(jsonArray, listType);
-        mAdapter = new CardAdapter(getActivity(), books);
+        mAdapter = new CardAdapter(books);
         mRecyclerView.setAdapter(mAdapter);
 
         android.os.Message msg = new android.os.Message();
@@ -185,7 +186,6 @@ public class ShoppingFragment extends Fragment {
 
             Log.v("id", book.getId());
             Log.v("title", book.getTitle());
-
 
         }
 
@@ -198,6 +198,5 @@ public class ShoppingFragment extends Fragment {
 
     }
 
-
-}
+    }
 

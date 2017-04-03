@@ -45,7 +45,7 @@
                 android:textColor="#fff"
                 android:textSize="26sp"
                 />
-<!--图书信息简单介绍-->
+<!--图书信息简单介绍
             <TextView
                 android:id="@+id/tv_des_nature"
                 android:layout_width="match_parent"
@@ -65,7 +65,7 @@
                 android:background="@android:color/white"
                 android:ellipsize="end"
                 android:fadeScrollbars="false"
-                android:lines="4"/>
+                android:lines="4"/>-->
         </RelativeLayout>
 
 

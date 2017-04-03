@@ -11,10 +11,12 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -71,7 +73,7 @@ public class MusicFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-/*        int toolbarHeight = 0;
+        int toolbarHeight = 0;
         mTouchSlop = ViewConfiguration.get(getActivity()).getScaledTouchSlop();
         View header = new View(getActivity());
         AppCompatActivity ac = (AppCompatActivity) getActivity();
@@ -81,8 +83,8 @@ public class MusicFragment extends Fragment {
                 toolbarHeight = mToolbar.getHeight();
             }
         }
-       *//* header.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, toolbarHeight));
-        listView.addHeaderView(header);*/
+        header.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, toolbarHeight));
+        listView.addHeaderView(header);
     }
 
     @Override

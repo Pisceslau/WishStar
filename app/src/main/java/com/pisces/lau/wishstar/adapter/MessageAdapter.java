@@ -64,7 +64,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
         Message message = messages.get(i);
         viewHolder.tvNature.setText(message.getMessage());
-        viewHolder.tvDesNature.setText(message.getUsername());
+        //viewHolder.tvDesNature.setText(message.getUsername());
         viewHolder.imgThumbnail.setImageResource(R.drawable.us);
 
     }
@@ -73,13 +73,11 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
         public ImageView imgThumbnail;
         public TextView tvNature;
-        public TextView tvDesNature;
 
         public ViewHolder(View itemView) {
             super(itemView);
             imgThumbnail = (ImageView) itemView.findViewById(R.id.img_thumbnail);
             tvNature = (TextView) itemView.findViewById(R.id.tv_nature);
-            tvDesNature = (TextView) itemView.findViewById(R.id.tv_des_nature);
             itemView.setOnClickListener(this);
         }
 

@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="250dp"
             android:contentDescription="@string/app_name"
-            android:scaleType="center" />
+            android:scaleType="centerCrop" />
 
         <!--书籍名-->
         <TextView

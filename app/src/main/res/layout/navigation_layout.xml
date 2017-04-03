@@ -10,7 +10,6 @@
 
         <include xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/toolbar"
             layout="@layout/tool_bar"
             android:background="@android:color/transparent"
             android:theme="@style/MyToolbarTheme" />
@@ -19,7 +18,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/toolbar">
-            <!--RecyclerView??????-->
 
             <ScrollView
                 android:id="@+id/scroll_view"
@@ -113,13 +111,6 @@
 
     </RelativeLayout>
 
-    <!--
-
-            <FrameLayout
-                android:id="@+id/frame"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-    -->
 
 
     <!--  </FrameLayout>-->
@@ -135,6 +126,7 @@
         android:layout_gravity="start"
         app:headerLayout="@layout/header"
         app:itemIconTint="@color/ColorPrimary"
-        app:menu="@menu/menu_drawer" />
+        app:menu="@menu/menu_drawer"
+      />
 
 </android.support.v4.widget.DrawerLayout>

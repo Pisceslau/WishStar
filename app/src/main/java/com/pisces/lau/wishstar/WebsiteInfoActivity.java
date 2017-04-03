@@ -24,7 +24,7 @@ public class WebsiteInfoActivity extends BaseActivity {
         webView = (WebView) findViewById(R.id.web_view);
         webView.setWebViewClient(new WebViewClient());
         webSetUp();
-        String newThreadUrl = "http://www.new-thread.com/";
+        String newThreadUrl = "http://wenyueliu.com/";
         webView.loadUrl(newThreadUrl);
     }
 

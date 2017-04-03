@@ -12,7 +12,7 @@ public class AppConstants {
     public static final String QQ_Login_APP_ID = "1104774194";
     public static final String BMOB_KEY = "9aca709e33595a0d6ed3b83d2869afe2";
     public static final String LoginActivity_TAG = "LoginActivity";
-    public static final String SPLASH_PHOTO_API = "http://news-at.zhihu.com/api/4/start-image/1080*1776";
+    public static final String SPLASH_PHOTO_API = "http://guolin.tech/api/bing_pic";
 
     //Action
     public static final String MUSIC_DURATION = "com.pisces.lau.wishstar.MUSIC_DURATION";

@@ -69,7 +69,7 @@ public class AudioUtil {
                 // 文件大小
                 if (cursor.getString(8) != null) {
                     float size = cursor.getInt(8) / 1024f / 1024f;
-                    song.setSize((size + "").substring(0, 4) + "M");
+                    song.setSize((size + "").substring(0, 3) + "M");
                 } else {
                     song.setSize("未知");
                 }
